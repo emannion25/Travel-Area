@@ -42,8 +42,8 @@ function initMap() {
     strokeColor: "#FF0000",
     strokeOpacity: 0.8,
     strokeWeight: 2,
-    fillColor: "red",
-    fillOpacity: 0.15,
+    fillColor: "white",
+    fillOpacity: 0.1,
     map: map,
     center: mycentre,
     radius: 5000,
@@ -130,6 +130,6 @@ function initMap() {
     });
 
     map.fitBounds(bounds);
-    map.setZoom(12);
+    //map.setZoom(12);
   });
 }
