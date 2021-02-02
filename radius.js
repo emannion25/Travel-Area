@@ -23,6 +23,7 @@ function RadiusControl(controlDiv, theCircle, myRadius) {
   // Setup the click event listeners
   controlUI.addEventListener("click", () => {
     theCircle.setRadius(myRadius);
+    map.fitBounds(theCircle.getBounds())
   });
 }
 
@@ -55,6 +56,27 @@ function initMap() {
     draggable: true
   });
 
+  const contentString =
+    '<div id="infowindow-content">' +
+
+    "<p>Drag to move circle</p>" +
+    "<p>or click elsewhere to change centre point</p>" +
+    "<p>Use on screen buttons to set radius</p>" +
+
+    "</div>";
+  const infowindow = new google.maps.InfoWindow({
+    content: contentString,
+  });
+
+  infowindow.open(map, marker);
+
+  map.addListener("click", (myevent) => {
+    map.setCenter(myevent.latLng);
+    marker.setMap(null);
+    marker.setPosition(myevent.latLng);
+    marker.setMap(map);
+  });  
+  
   map.addListener("click", (myevent) => {
     map.setCenter(myevent.latLng);
     marker.setMap(null);
@@ -74,4 +96,43 @@ function initMap() {
   RadiusControl(radiusControlDiv, myCircle, 10000);
   RadiusControl(radiusControlDiv, myCircle, 20000);
   map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(radiusControlDiv);
+  // Create the search box and link it to the UI element.
+  const input = document.getElementById("pac-input");
+  const searchBox = new google.maps.places.SearchBox(input);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener("bounds_changed", () => {
+    searchBox.setBounds(map.getBounds());
+  });
+
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+
+    // For each place, get the icon, name and location.
+    const bounds = new google.maps.LatLngBounds();
+    places.forEach((place) => {
+      if (!place.geometry) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+
+      marker.setMap(null);
+      marker.setPosition(place.geometry.location);
+      marker.setMap(map);
+
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+
+    map.fitBounds(bounds);
+    map.setZoom(12);
+  });
 }
