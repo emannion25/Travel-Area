@@ -1,4 +1,4 @@
-function RadiusControl(controlDiv, theCircle, myRadius) {
+function RadiusControl(controlDiv, map, theCircle, myRadius) {
   // Set CSS for the control border.
   const controlUI = document.createElement("div");
   controlUI.style.backgroundColor = "#fff";
@@ -38,7 +38,6 @@ function initMap() {
     center: mycentre,
     mapTypeId: "terrain",
   });
-
   const myCircle = new google.maps.Circle({
     strokeColor: "#FF0000",
     strokeOpacity: 0.8,
@@ -55,6 +54,7 @@ function initMap() {
     map: map,
     draggable: true
   });
+
 
   const contentString =
     '<div id="infowindow-content">' +
@@ -75,13 +75,6 @@ function initMap() {
     marker.setMap(null);
     marker.setPosition(myevent.latLng);
     marker.setMap(map);
-  });  
-  
-  map.addListener("click", (myevent) => {
-    map.setCenter(myevent.latLng);
-    marker.setMap(null);
-    marker.setPosition(myevent.latLng);
-    marker.setMap(map);
   });
 
   marker.addListener("position_changed", () => {
@@ -89,13 +82,17 @@ function initMap() {
     myCircle.setCenter(marker.position);
     myCircle.setMap(map);
   });
+
+
   // Create DIV to hold the control and call the radiusControl()
   // constructor passing in this DIV.
   const radiusControlDiv = document.createElement("div");
-  RadiusControl(radiusControlDiv, myCircle, 5000);
-  RadiusControl(radiusControlDiv, myCircle, 10000);
-  RadiusControl(radiusControlDiv, myCircle, 20000);
+  RadiusControl(radiusControlDiv, map, myCircle, 5000);
+  RadiusControl(radiusControlDiv, map, myCircle, 10000);
+  RadiusControl(radiusControlDiv, map, myCircle, 20000);
   map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(radiusControlDiv);
+
+
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
