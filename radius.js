@@ -69,6 +69,10 @@ function initMap() {
   });
 
   infowindow.open(map, marker);
+  
+  marker.addListener("click", () => {
+    infowindow.open(map, marker);
+  });
 
   map.addListener("click", (myevent) => {
     map.setCenter(myevent.latLng);
