@@ -85,8 +85,8 @@ function initMap() {
   const contentString =
     '<div id="infowindow-content">' +
 
-    "<p>Drag to move circle</p>" +
-    "<p>or click elsewhere to change centre point</p>" +
+    "<p>Drag to move circle" + "<br>" +
+    "or click elsewhere to change centre point.</p>" +
     "<p>Use on screen buttons to set radius</p>" +
 
     "</div>";
@@ -122,11 +122,6 @@ function initMap() {
   RadiusControl(radiusControlDiv, map, myCircle, 20000);
   map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(radiusControlDiv);
   
-  const myInfoDiv = document.createElement("div");
-  myInfoBox(myInfoDiv);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(myInfoDiv);
-
-
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
@@ -163,7 +158,9 @@ function initMap() {
       }
     });
 
-    map.fitBounds(bounds);
-    //map.setZoom(12);
+    map.fitBounds(bounds);    
   });
+  const myInfoDiv = document.createElement("div");
+  myInfoBox(myInfoDiv);
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(myInfoDiv);
 }
