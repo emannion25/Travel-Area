@@ -85,8 +85,8 @@ function initMap() {
   const contentString =
     '<div id="infowindow-content">' +
 
-    "<p>Drag to move circle" + "<br>" +
-    "or click elsewhere to change centre point.</p>" +
+    "<p>Drag to move circle or" + "<br>" +
+    "click elsewhere to change centre.</p>" +
     "<p>Use on screen buttons to set radius</p>" +
 
     "</div>";
