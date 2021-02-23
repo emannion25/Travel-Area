@@ -27,6 +27,32 @@ function RadiusControl(controlDiv, map, theCircle, myRadius) {
   });
 }
 
+function myInfoBox(controlDiv) {
+  // Set CSS for the control border.
+  const controlUI = document.createElement("div");
+  controlUI.style.backgroundColor = "#fff";
+  controlUI.style.border = "2px solid #fff";
+  controlUI.style.borderRadius = "3px";
+  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlUI.style.margin = "5px";
+  controlUI.style.width = "250px";
+  controlUI.style.textAlign = "justify";
+  //controlUI.title = "no title";
+  controlDiv.appendChild(controlUI);
+  // Set CSS for the control interior.
+  const controlText = document.createElement("div");
+  controlText.style.color = "rgb(25,25,25)";
+  controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+  controlText.style.fontSize = "12px";
+  controlText.style.lineHeight = "15px";
+  controlText.style.paddingLeft = "5px";
+  controlText.style.paddingRight = "5px";
+  controlText.innerHTML = "<b>Note:</b> Some features are unavailable due to the API key being omitted. "
+                           + "However most features still work such as finding your travel area for "
+                           + "different radius lengths and moving the marker.";
+  controlUI.appendChild(controlText);
+}
+
 function initMap() {
   const mycentre = {
     lat: 53.274,
@@ -95,6 +121,10 @@ function initMap() {
   RadiusControl(radiusControlDiv, map, myCircle, 10000);
   RadiusControl(radiusControlDiv, map, myCircle, 20000);
   map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(radiusControlDiv);
+  
+  const myInfoDiv = document.createElement("div");
+  myInfoBox(myInfoDiv);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(myInfoDiv);
 
 
   // Create the search box and link it to the UI element.
