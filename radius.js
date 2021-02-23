@@ -34,7 +34,7 @@ function myInfoBox(controlDiv) {
   controlUI.style.border = "2px solid #fff";
   controlUI.style.borderRadius = "3px";
   controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-  controlUI.style.margin = "20px";
+  controlUI.style.marginLeft = "15px";
   controlUI.style.width = "250px";
   controlUI.style.textAlign = "justify";
   //controlUI.title = "no title";
