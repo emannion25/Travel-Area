@@ -94,7 +94,7 @@ function myInfoBox(controlDiv) {
   controlText.style.paddingRight = "5px";
   controlText.innerHTML = "<b>Note:</b> Some features are unavailable since the API key is not public. "
                            + "However most features still work such as finding your travel area for "
-                           + "different radius lengths and moving the marker."
+                           + "different radius lengths and moving the marker. "
                            + "You can set your location using Latitude, Longitude.";
   controlUI.appendChild(controlText);
 }
