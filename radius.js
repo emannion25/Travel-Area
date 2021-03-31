@@ -27,6 +27,40 @@ function RadiusControl(controlDiv, map, theCircle, myRadius) {
   });
 }
 
+function coordControl(controlDiv, map, marker, userCoords) {
+  // Set CSS for the control border.
+  const controlUI = document.createElement("div");
+  controlUI.style.backgroundColor = "#fff";
+  controlUI.style.border = "2px solid #fff";
+  controlUI.style.borderRadius = "3px";
+  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+  controlUI.style.cursor = "pointer";
+  controlUI.style.marginLeft = "10px";
+  controlUI.style.textAlign = "center";
+  controlUI.title = "Click to change location";
+  controlDiv.appendChild(controlUI);
+  // Set CSS for the control interior.
+  const controlText = document.createElement("div");
+  controlText.style.color = "rgb(25,25,25)";
+  controlText.style.fontFamily = "Roboto,Arial,sans-serif";
+  controlText.style.fontSize = "12px";
+  controlText.style.lineHeight = "30px";
+  controlText.style.paddingLeft = "5px";
+  controlText.style.paddingRight = "5px";
+  controlText.innerHTML = "Find Coordinates";
+  controlUI.appendChild(controlText);
+  // Setup the click event listeners
+  controlUI.addEventListener("click", () => {
+    const location = userCoords.value.split(",", 2);  
+    const newcentre = {
+    lat: parseFloat(location[0]),
+    lng: parseFloat(location[1])
+    };
+    map.setCenter(newcentre);
+    marker.setPosition(newcentre);   
+  });
+}
+
 function myInfoBox(controlDiv) {
   // Set CSS for the control border.
   const controlUI = document.createElement("div");
@@ -163,4 +197,11 @@ function initMap() {
   const myInfoDiv = document.createElement("div");
   myInfoBox(myInfoDiv);
   map.controls[google.maps.ControlPosition.LEFT_TOP].push(myInfoDiv);
+  
+  const coordInput = document.getElementById("coord-input");
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(coordInput);
+  
+  const coordControlDiv = document.createElement("div");
+  coordControl(coordControlDiv, map, marker, coordInput);
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(coordControlDiv);
 }
