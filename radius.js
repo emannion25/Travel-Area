@@ -44,7 +44,7 @@ function coordControl(controlDiv, map, marker, userCoords) {
   controlText.style.color = "rgb(25,25,25)";
   controlText.style.fontFamily = "Roboto,Arial,sans-serif";
   controlText.style.fontSize = "12px";
-  controlText.style.lineHeight = "30px";
+  controlText.style.lineHeight = "20px";
   controlText.style.paddingLeft = "5px";
   controlText.style.paddingRight = "5px";
   controlText.innerHTML = "Find Coordinates";
@@ -52,12 +52,23 @@ function coordControl(controlDiv, map, marker, userCoords) {
   // Setup the click event listeners
   controlUI.addEventListener("click", () => {
     const location = userCoords.value.split(",", 2);  
-    const newcentre = {
-    lat: parseFloat(location[0]),
-    lng: parseFloat(location[1])
-    };
-    map.setCenter(newcentre);
-    marker.setPosition(newcentre);   
+    const myLat = parseFloat(location[0]);
+    const myLng = parseFloat(location[1]);
+    function inRange(number,min,max){
+        if ( (number >= min) && (number <= max) ){
+            return true;
+        } else {
+            return false;
+        };
+    }
+    if ( inRange(myLat,-90,90) && inRange(myLng,-180,180) ){
+        const newcentre = {
+        lat: myLat,
+        lng: myLng
+        };
+        map.setCenter(newcentre);
+        marker.setPosition(newcentre);
+    }  
   });
 }
 
@@ -83,7 +94,8 @@ function myInfoBox(controlDiv) {
   controlText.style.paddingRight = "5px";
   controlText.innerHTML = "<b>Note:</b> Some features are unavailable since the API key is not public. "
                            + "However most features still work such as finding your travel area for "
-                           + "different radius lengths and moving the marker.";
+                           + "different radius lengths and moving the marker."
+                           + "You can set your location using Latitude, Longitude.";
   controlUI.appendChild(controlText);
 }
 
